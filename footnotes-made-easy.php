@@ -3,7 +3,7 @@
 Plugin Name: Footnotes Made Easy
 Plugin URI: https://wordpress.org/plugins/footnotes-made-easy/
 Description: Allows post authors to easily add and manage footnotes in posts.
-Version: 1.0.1
+Version: 1.0.2
 Author: David Artiss
 Author URI: https://artiss.blog
 Text Domain: footnotes-made-easy
@@ -283,6 +283,7 @@ class swas_wp_footnotes {
 			}
 			$footnotes_markup = $footnotes_markup . '</ol>' . $this->current_options[ 'post_footnotes' ];
 			
+			$data = $data . $footnotes_markup;
 		}
 
 		return $data;
@@ -519,7 +520,3 @@ class swas_wp_footnotes {
 		wp_enqueue_style( 'wp-footnotes-tt-style', plugins_url( 'css/tooltips.min.css' , __FILE__ ), array(), null );
 	}
 }
-<<<<<<< HEAD
-=======
-?>
->>>>>>> 019b58830f63b2033d8ab03b1cd58da39ef97938
