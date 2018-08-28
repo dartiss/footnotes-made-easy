@@ -284,9 +284,9 @@ class swas_wp_footnotes {
 				$footnotes_markup = $footnotes_markup . '</li>';
 			}
 			$footnotes_markup = $footnotes_markup . '</ol>' . $this->current_options[ 'post_footnotes' ];
+			
+			$data = $data . $footnotes_markup;
 		}
-
-		$data = $data . $footnotes_markup;
 
 		return $data;
 	}
