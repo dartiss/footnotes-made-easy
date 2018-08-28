@@ -20,7 +20,7 @@ if ( !empty( $_POST[ 'save_options' ] ) ) {
 	$message = '';
 }
 ?>
-	<?php if ( $message != '' ) { ?>
+	<?php if ( $message !== '' ) { ?>
 	<div class="updated"><p><strong><?php echo $message; ?></strong></p></div>
 	<?php } ?>
 
@@ -35,7 +35,7 @@ if ( !empty( $_POST[ 'save_options' ] ) ) {
 			<input type="text" size="3" name="inner_pre_identifier" value="<?php echo esc_attr(  $this->current_options[ 'inner_pre_identifier' ] ); ?>" />
 			<select name="list_style_type">
 				<?php foreach ( $this->styles as $key => $val ): ?>
-				<option value="<?php echo $key; ?>" <?php if ( $this->current_options[ 'list_style_type' ] == $key ) echo 'selected="selected"'; ?> ><?php echo esc_attr( $val ); ?></option>
+				<option value="<?php echo $key; ?>" <?php if ( $this->current_options[ 'list_style_type' ] === $key ) echo 'selected="selected"'; ?> ><?php echo esc_attr( $val ); ?></option>
 				<?php endforeach; ?>
 			</select>
 			<input type="text" size="3" name="inner_post_identifier" value="<?php echo esc_attr(  $this->current_options[ 'inner_post_identifier' ] ); ?>" />

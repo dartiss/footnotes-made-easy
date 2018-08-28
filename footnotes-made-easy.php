@@ -78,14 +78,14 @@ class swas_wp_footnotes {
 
 		// Get the current settings or setup some defaults if needed
 
-		if ( !$this->current_options = get_option( 'swas_footnote_options' ) ){
+		if ( !$this->current_options === get_option( 'swas_footnote_options' ) ){
 			$this->current_options = $this->default_options;
 			update_option( 'swas_footnote_options', $this->current_options );
 		} else {
 
 			// Set any unset options
 
-			if ( !isset( $this->current_options[ 'version' ] ) || $this->current_options[ 'version' ] != self::OPTIONS_VERSION) {
+			if ( !isset( $this->current_options[ 'version' ] ) || $this->current_options[ 'version' ] !== self::OPTIONS_VERSION) {
 				foreach ( $this->default_options as $key => $value ) {
 					if ( !isset( $this->current_options[ $key ] ) ) {
 						$this->current_options[ $key ] = $value;
@@ -165,11 +165,9 @@ class swas_wp_footnotes {
 
 		// Check for and setup the starting number
 
-		$start_number = ( preg_match( "|<!\-\-startnum=(\d+)\-\->|", $data,$start_number_array ) == 1 ) ? $start_number_array[ 1 ] : 1;
+		$start_number = ( 1 === preg_match( "|<!\-\-startnum=(\d+)\-\->|", $data,$start_number_array ) ) ? $start_number_array[ 1 ] : 1;
 
 		// Regex extraction of all footnotes (or return if there are none)
-
-		//if ( ! preg_match_all( "/(" . preg_quote( $this->current_options[ 'footnotes_open' ], "/" ) . "|<footnote>)(.*)(" . preg_quote( $this->current_options[ 'footnotes_close' ], "/" ) . "|<\/footnote>)/Us", $data, $identifiers, PREG_SET_ORDER ) ) {
 
 		if ( ! preg_match_all( "/(" . preg_quote( $this->current_options[ 'footnotes_open' ], "/" ) . ")(.*)(" . preg_quote( $this->current_options[ 'footnotes_close' ], "/" ) . ")/Us", $data, $identifiers, PREG_SET_ORDER ) ) {
 			return $data;
@@ -202,7 +200,7 @@ class swas_wp_footnotes {
 
 			// Look for ref: and replace in identifiers array
 
-			if ( 'ref:' == substr( $identifiers[ $i ][ 2 ], 0, 4 ) ){
+			if ( 'ref:' === substr( $identifiers[ $i ][ 2 ], 0, 4 ) ){
 				$ref = ( int )substr( $identifiers[ $i ][ 2 ],4 );
 				$identifiers[ $i ][ 'text' ] = $identifiers[ $ref-1 ][ 2 ];
 			}else{
@@ -213,7 +211,7 @@ class swas_wp_footnotes {
 
 			if ( $this->current_options[ 'combine_identical_notes' ] ){
 				for ( $j = 0; $j < count( $footnotes ); $j++ ){
-					if ( $footnotes[ $j ][ 'text' ] == $identifiers[ $i ][ 'text' ] ){
+					if ( $footnotes[ $j ][ 'text' ] === $identifiers[ $i ][ 'text' ] ){
 						$identifiers[ $i ][ 'use_footnote' ] = $j;
 						$footnotes[ $j ][ 'identifiers' ][] = $i;
 						break;
@@ -244,7 +242,7 @@ class swas_wp_footnotes {
 		foreach ( $identifiers as $key => $value ) {
 
 			$id_id = "identifier_" . $key . "_" . $post->ID;
-			$id_num = ( $style == 'decimal' ) ? $value[ 'use_footnote' ] + $start_number : $this->convert_num( $value[ 'use_footnote' ] + $start_number, $style, count( $footnotes ) );
+			$id_num = ( $style === 'decimal' ) ? $value[ 'use_footnote' ] + $start_number : $this->convert_num( $value[ 'use_footnote' ] + $start_number, $style, count( $footnotes ) );
 			$id_href = ( ( $use_full_link ) ? get_permalink( $post->ID ) : '' ) . "#footnote_" . $value[ 'use_footnote' ] . "_" . $post->ID;
 			$id_title = str_replace( '"', "&quot;", htmlentities( html_entity_decode( strip_tags( $value[ 'text' ] ), ENT_QUOTES, 'UTF-8' ), ENT_QUOTES, 'UTF-8' ) );
 			$id_replace = $this->current_options[ 'pre_identifier' ] . '<a href="' . $id_href . '" id="' . $id_id . '" class="footnote-link footnote-identifier-link" title="' . $id_title . '">' . $this->current_options[ 'inner_pre_identifier' ] . $id_num . $this->current_options[ 'inner_post_identifier' ] . '</a>' . $this->current_options[ 'post_identifier' ];
@@ -258,19 +256,19 @@ class swas_wp_footnotes {
 		if ( $display ) {
 
 			$footnotes_markup = '';
-			$start = ( $start_number != 1 ) ? 'start="' . $start_number . '" ' : '';
+			$start = ( $start_number !== 1 ) ? 'start="' . $start_number . '" ' : '';
 			$footnotes_markup = $footnotes_markup . $this->current_options[ 'pre_footnotes' ];
 
 			$footnotes_markup = $footnotes_markup . '<ol ' . $start . 'class="footnotes">';
 			foreach ( $footnotes as $key => $value ) {
 				$footnotes_markup = $footnotes_markup . '<li id="footnote_' . $key . '_' . $post->ID . '" class="footnote"';
-				if ( 'symbol' == $style ) {
+				if ( 'symbol' === $style ) {
 					$footnotes_markup = $footnotes_markup . ' style="list-style-type:none;"';
-				} elseif( $style != $this->current_options[ 'list_style_type' ] ) {
+				} elseif( $style !== $this->current_options[ 'list_style_type' ] ) {
 					$footnotes_markup = $footnotes_markup . ' style="list-style-type:' . $style . ';"';
 				}
 				$footnotes_markup = $footnotes_markup . '>';
-				if ( 'symbol' == $style ) {
+				if ( 'symbol' === $style ) {
 					$footnotes_markup = $footnotes_markup . '<span class="symbol">' . $this->convert_num( $key + $start_number, $style, count( $footnotes ) ) . '</span> ';
 				}
 				$footnotes_markup = $footnotes_markup.$value[ 'text' ];
@@ -324,7 +322,7 @@ class swas_wp_footnotes {
 		global $footnotes_hook;
 		$screen = get_current_screen();
 
-		if ( $screen->id != $footnotes_hook ) { return; }
+		if ( $screen->id !== $footnotes_hook ) { return; }
 
 		$screen -> add_help_tab( array( 'id' => 'footnotes-help-tab', 'title'	=> __( 'Help', 'footnotes-made-easy' ), 'content' => $this->add_help_content() ) );
 
@@ -399,7 +397,7 @@ class swas_wp_footnotes {
 	function insert_styles(){
 		?>
 		<style type="text/css">
-			<?php if ( 'symbol' != $this->current_options[ 'list_style_type' ] ): ?>
+			<?php if ( 'symbol' !== $this->current_options[ 'list_style_type' ] ): ?>
 			ol.footnotes>li {list-style-type:<?php echo $this->current_options[ 'list_style_type' ]; ?>;}
 			<?php endif; ?>
 			<?php echo "ol.footnotes { color:#666666; }\nol.footnotes li { font-size:80%; }\n"; ?>
@@ -480,14 +478,14 @@ class swas_wp_footnotes {
 			$num %= $d;
 		}
 
-		return ( $case == 'lower' ) ? strtolower( $roman ) : $roman;
+		return ( $case === 'lower' ) ? strtolower( $roman ) : $roman;
 	}
 
 	function alpha( $num, $case='upper' ){
 		$j = 1;
 		for ( $i = 'A'; $i <= 'ZZ'; $i++ ){
-			if ( $j == $num ){
-				if ( 'lower' == $case )
+			if ( $j === $num ){
+				if ( 'lower' === $case )
 					return strtolower( $i );
 				else
 					return $i;
@@ -522,4 +520,3 @@ class swas_wp_footnotes {
 		wp_enqueue_style( 'wp-footnotes-tt-style', plugins_url( 'css/tooltips.min.css' , __FILE__ ), array(), null );
 	}
 }
-?>

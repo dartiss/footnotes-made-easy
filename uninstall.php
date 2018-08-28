@@ -15,4 +15,3 @@ if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) { exit(); }
 // Delete any saved data
 
 delete_option( 'swas_footnote_options' );
-?>
