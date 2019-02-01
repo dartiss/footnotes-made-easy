@@ -77,8 +77,8 @@ class swas_wp_footnotes {
 									  );
 
 		// Get the current settings or setup some defaults if needed
-
-		if ( !$this->current_options = get_option( 'swas_footnote_options' ) ){
+		$this->current_options === get_option( 'swas_footnote_options' );
+		if ( ! $this->current_options ) {
 			$this->current_options = $this->default_options;
 			update_option( 'swas_footnote_options', $this->current_options );
 		} else {
@@ -132,6 +132,7 @@ class swas_wp_footnotes {
 			$footnotes_options[ 'pretty_tooltips' ] = ( array_key_exists( 'pretty_tooltips', $_POST ) ) ? true : false;
 
 			update_option( 'swas_footnote_options', $footnotes_options );
+			$this->current_options = $footnotes_options;
 
 		} elseif( !empty( $_POST[ 'reset_options' ] ) ) {
 
