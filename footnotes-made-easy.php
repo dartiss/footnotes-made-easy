@@ -77,7 +77,7 @@ class swas_wp_footnotes {
 									  );
 
 		// Get the current settings or setup some defaults if needed
-		$this->current_options === get_option( 'swas_footnote_options' );
+		$this->current_options = get_option( 'swas_footnote_options' );
 		if ( ! $this->current_options ) {
 			$this->current_options = $this->default_options;
 			update_option( 'swas_footnote_options', $this->current_options );
