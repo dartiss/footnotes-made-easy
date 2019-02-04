@@ -163,6 +163,11 @@ class swas_wp_footnotes {
 	function process( $data ) {
 
 		global $post;
+		
+		// check against post existing before processing
+		if( ! $post ) {
+			return $data;
+		}
 
 		// Check for and setup the starting number
 
