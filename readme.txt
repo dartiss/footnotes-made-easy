@@ -2,9 +2,9 @@
 Contributors: dartiss
 Tags: bibliography, footnotes, formatting, notes, reference, referencing
 Requires at least: 4.6
-Tested up to: 4.9
-Requires PHP: 5.3
-Stable tag: 1.0.1
+Tested up to: 5.1.1
+Requires PHP: 5.6
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,7 +89,16 @@ Yes it can. The easiest way is to use the CSS editor in your theme customizer. F
 
 [Learn more about my version numbering methodology](https://artiss.blog/2016/09/wordpress-plugin-versioning/ "WordPress Plugin Versioning")
 
-= 1.1 =
+= 1.0.2 =
+* Bug: Fixed some bugs around settings getting saved (thanks to [Rufus87](https://wordpress.org/support/users/rufus87/))
+* Enhancement: Improved code to better meet VIP coding standards (not 100% yet but looking better!)
+* Enhancement: Added Github links to plugin meta. Added other useful meta as well
+* Enhancement: Minor enhancements to the way that field headings are shown in the settings
+* Enhancement: Added a further check to the settings savings function, to ensure it's not called when it's not needed (thanks to [seuser](https://wordpress.org/support/users/seuser/))
+* Maintenance: Increased minimum PHP level 5.6 after reports of issues at 5.4. Upgrade people!
+* Maintenance: Removed some redundant code from where there used to be a button on the settings screen to reset all the options
+
+= 1.0.1 =
 * Maintenance: Updated this README to display better in the new plugin repository. Also updated the image assets (banner and icon)
 * Maintenance: Minimum WordPress requirement is now 4.6. This means various checks and bits of code could be removed, including the languages folder, as this is now handled natively.
 
@@ -98,5 +107,5 @@ Yes it can. The easiest way is to use the CSS editor in your theme customizer. F
 
 == Upgrade Notice ==
 
-= 1.1 =
-* A load of maintenance changes. They’re not sexy but they’re necessary.
+= 1.0.2 =
+* A load more minor enhancements and bug fixes
