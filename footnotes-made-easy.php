@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Footnotes Made Easy
-Plugin URI: https://wordpress.org/plugins/footnotes-made-easy/
+Plugin URI: https://github.com/dartiss/footnotes-made-easy
 Description: Allows post authors to easily add and manage footnotes in posts.
-Version: 1.0.1
+Version: 1.0.2
 Author: David Artiss
 Author URI: https://artiss.blog
 Text Domain: footnotes-made-easy
@@ -77,15 +77,17 @@ class swas_wp_footnotes {
 									  );
 
 		// Get the current settings or setup some defaults if needed
+     
 		$this->current_options = get_option( 'swas_footnote_options' );
-		if ( ! $this->current_options ) {
+		if ( ! $this->current_options ) {		
+
 			$this->current_options = $this->default_options;
 			update_option( 'swas_footnote_options', $this->current_options );
 		} else {
 
 			// Set any unset options
 
-			if ( !isset( $this->current_options[ 'version' ] ) || $this->current_options[ 'version' ] != self::OPTIONS_VERSION) {
+			if ( !isset( $this->current_options[ 'version' ] ) || $this->current_options[ 'version' ] !== self::OPTIONS_VERSION) {
 				foreach ( $this->default_options as $key => $value ) {
 					if ( !isset( $this->current_options[ $key ] ) ) {
 						$this->current_options[ $key ] = $value;
@@ -96,48 +98,47 @@ class swas_wp_footnotes {
 			}
 		}
 
-		if( !empty($_POST[ 'save_options' ] ) ) {
+		$footnotes_options = array();
+			
+		$post_array = $_POST;
 
-			$footnotes_options[ 'superscript' ] = ( array_key_exists( 'superscript', $_POST ) ) ? true : false;
+		if ( !empty( $post_array[ 'save_options' ] ) && !empty( $post_array[ 'save_footnotes_made_easy_options' ] ) ) {
 
-			$footnotes_options[ 'pre_backlink' ] = sanitize_text_field( $_POST[ 'pre_backlink' ] );
-			$footnotes_options[ 'backlink' ] = sanitize_text_field( $_POST[ 'backlink' ] );
-			$footnotes_options[ 'post_backlink' ] = sanitize_text_field( $_POST[ 'post_backlink' ] );
+			$footnotes_options[ 'superscript' ] = ( array_key_exists( 'superscript', $post_array ) ) ? true : false;
 
-			$footnotes_options[ 'pre_identifier' ] = sanitize_text_field( $_POST[ 'pre_identifier' ] );
-			$footnotes_options[ 'inner_pre_identifier' ] = sanitize_text_field( $_POST[ 'inner_pre_identifier' ] );
-			$footnotes_options[ 'list_style_type' ] = sanitize_text_field( $_POST[ 'list_style_type' ] );
-			$footnotes_options[ 'inner_post_identifier' ] = sanitize_text_field( $_POST[ 'inner_post_identifier' ] );
-			$footnotes_options[ 'post_identifier' ] = sanitize_text_field( $_POST[ 'post_identifier' ] );
-			$footnotes_options[ 'list_style_symbol' ] = sanitize_text_field( $_POST[ 'list_style_symbol' ] );
+			$footnotes_options[ 'pre_backlink' ] = sanitize_text_field( $post_array[ 'pre_backlink' ] );
+			$footnotes_options[ 'backlink' ] = sanitize_text_field( $post_array[ 'backlink' ] );
+			$footnotes_options[ 'post_backlink' ] = sanitize_text_field( $post_array[ 'post_backlink' ] );
+
+			$footnotes_options[ 'pre_identifier' ] = sanitize_text_field( $post_array[ 'pre_identifier' ] );
+			$footnotes_options[ 'inner_pre_identifier' ] = sanitize_text_field( $post_array[ 'inner_pre_identifier' ] );
+			$footnotes_options[ 'list_style_type' ] = sanitize_text_field( $post_array[ 'list_style_type' ] );
+			$footnotes_options[ 'inner_post_identifier' ] = sanitize_text_field( $post_array[ 'inner_post_identifier' ] );
+			$footnotes_options[ 'post_identifier' ] = sanitize_text_field( $post_array[ 'post_identifier' ] );
+			$footnotes_options[ 'list_style_symbol' ] = sanitize_text_field( $post_array[ 'list_style_symbol' ] );
 
 
-			$footnotes_options[ 'pre_footnotes' ] = $_POST[ 'pre_footnotes' ];
-			$footnotes_options[ 'post_footnotes' ] = $_POST[ 'post_footnotes' ];
+			$footnotes_options[ 'pre_footnotes' ] = $post_array[ 'pre_footnotes' ];
+			$footnotes_options[ 'post_footnotes' ] = $post_array[ 'post_footnotes' ];
 
-			$footnotes_options[ 'no_display_home' ] = ( array_key_exists( 'no_display_home', $_POST ) ) ? true : false;
-			$footnotes_options[ 'no_display_preview' ] = ( array_key_exists( 'no_display_preview', $_POST ) ) ? true : false;
-			$footnotes_options[ 'no_display_archive' ] = ( array_key_exists( 'no_display_archive', $_POST ) ) ? true : false;
-			$footnotes_options[ 'no_display_date' ] = ( array_key_exists( 'no_display_date', $_POST ) ) ? true : false;
-			$footnotes_options[ 'no_display_category' ] = ( array_key_exists( 'no_display_category', $_POST ) ) ? true : false;
-			$footnotes_options[ 'no_display_search' ] = ( array_key_exists( 'no_display_search', $_POST ) ) ? true : false;
-			$footnotes_options[ 'no_display_feed' ] = ( array_key_exists( 'no_display_feed', $_POST ) ) ? true : false;
+			$footnotes_options[ 'no_display_home' ] = ( array_key_exists( 'no_display_home', $post_array ) ) ? true : false;
+			$footnotes_options[ 'no_display_preview' ] = ( array_key_exists( 'no_display_preview', $post_array) ) ? true : false;
+			$footnotes_options[ 'no_display_archive' ] = ( array_key_exists( 'no_display_archive', $post_array ) ) ? true : false;
+			$footnotes_options[ 'no_display_date' ] = ( array_key_exists( 'no_display_date', $post_array ) ) ? true : false;
+			$footnotes_options[ 'no_display_category' ] = ( array_key_exists( 'no_display_category', $post_array ) ) ? true : false;
+			$footnotes_options[ 'no_display_search' ] = ( array_key_exists( 'no_display_search', $post_array ) ) ? true : false;
+			$footnotes_options[ 'no_display_feed' ] = ( array_key_exists( 'no_display_feed', $post_array ) ) ? true : false;
 
-			$footnotes_options[ 'combine_identical_notes' ] = ( array_key_exists( 'combine_identical_notes', $_POST ) ) ? true : false;
-			$footnotes_options[ 'priority' ] = sanitize_text_field( $_POST[ 'priority' ] );
+			$footnotes_options[ 'combine_identical_notes' ] = ( array_key_exists( 'combine_identical_notes', $post_array ) ) ? true : false;
+			$footnotes_options[ 'priority' ] = sanitize_text_field( $post_array[ 'priority' ] );
 
-			$footnotes_options[ 'footnotes_open' ] = sanitize_text_field( $_POST[ 'footnotes_open' ] );
-			$footnotes_options[ 'footnotes_close' ] = sanitize_text_field( $_POST[ 'footnotes_close' ] );
+			$footnotes_options[ 'footnotes_open' ] = sanitize_text_field( $post_array[ 'footnotes_open' ] );
+			$footnotes_options[ 'footnotes_close' ] = sanitize_text_field( $post_array[ 'footnotes_close' ] );
 
-			$footnotes_options[ 'pretty_tooltips' ] = ( array_key_exists( 'pretty_tooltips', $_POST ) ) ? true : false;
+			$footnotes_options[ 'pretty_tooltips' ] = ( array_key_exists( 'pretty_tooltips', $post_array ) ) ? true : false;
 
 			update_option( 'swas_footnote_options', $footnotes_options );
 			$this->current_options = $footnotes_options;
-
-		} elseif( !empty( $_POST[ 'reset_options' ] ) ) {
-
-			update_option( 'swas_footnote_options', '' );
-			update_option( 'swas_footnote_options', $this->default_options );
 
 		}
 
@@ -147,6 +148,9 @@ class swas_wp_footnotes {
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) ); 		// Insert the Admin panel.
 		add_action( 'wp_head', array( $this, 'insert_styles' ) );
 		if ( $this->current_options[ 'pretty_tooltips' ] ) add_action( 'wp_enqueue_scripts', array( $this, 'tooltip_scripts' ) );
+
+		add_filter( 'plugin_action_links', array( $this, 'add_settings_link' ), 10, 2 );
+		add_filter( 'plugin_row_meta', array( $this, 'plugin_meta' ), 10, 2 );	
 	}
 
 	/**
@@ -169,13 +173,17 @@ class swas_wp_footnotes {
 			return $data;
 		}
 
+		// Ensure post exists
+
+		if ( !$post ) {
+			return $data;
+		}		
+
 		// Check for and setup the starting number
 
-		$start_number = ( preg_match( "|<!\-\-startnum=(\d+)\-\->|", $data,$start_number_array ) == 1 ) ? $start_number_array[ 1 ] : 1;
+		$start_number = ( 1 === preg_match( "|<!\-\-startnum=(\d+)\-\->|", $data,$start_number_array ) ) ? $start_number_array[ 1 ] : 1;
 
 		// Regex extraction of all footnotes (or return if there are none)
-
-		//if ( ! preg_match_all( "/(" . preg_quote( $this->current_options[ 'footnotes_open' ], "/" ) . "|<footnote>)(.*)(" . preg_quote( $this->current_options[ 'footnotes_close' ], "/" ) . "|<\/footnote>)/Us", $data, $identifiers, PREG_SET_ORDER ) ) {
 
 		if ( ! preg_match_all( "/(" . preg_quote( $this->current_options[ 'footnotes_open' ], "/" ) . ")(.*)(" . preg_quote( $this->current_options[ 'footnotes_close' ], "/" ) . ")/Us", $data, $identifiers, PREG_SET_ORDER ) ) {
 			return $data;
@@ -208,7 +216,7 @@ class swas_wp_footnotes {
 
 			// Look for ref: and replace in identifiers array
 
-			if ( 'ref:' == substr( $identifiers[ $i ][ 2 ], 0, 4 ) ){
+			if ( 'ref:' === substr( $identifiers[ $i ][ 2 ], 0, 4 ) ){
 				$ref = ( int )substr( $identifiers[ $i ][ 2 ],4 );
 				$identifiers[ $i ][ 'text' ] = $identifiers[ $ref-1 ][ 2 ];
 			}else{
@@ -219,7 +227,7 @@ class swas_wp_footnotes {
 
 			if ( $this->current_options[ 'combine_identical_notes' ] ){
 				for ( $j = 0; $j < count( $footnotes ); $j++ ){
-					if ( $footnotes[ $j ][ 'text' ] == $identifiers[ $i ][ 'text' ] ){
+					if ( $footnotes[ $j ][ 'text' ] === $identifiers[ $i ][ 'text' ] ){
 						$identifiers[ $i ][ 'use_footnote' ] = $j;
 						$footnotes[ $j ][ 'identifiers' ][] = $i;
 						break;
@@ -250,9 +258,9 @@ class swas_wp_footnotes {
 		foreach ( $identifiers as $key => $value ) {
 
 			$id_id = "identifier_" . $key . "_" . $post->ID;
-			$id_num = ( $style == 'decimal' ) ? $value[ 'use_footnote' ] + $start_number : $this->convert_num( $value[ 'use_footnote' ] + $start_number, $style, count( $footnotes ) );
+			$id_num = ( $style === 'decimal' ) ? $value[ 'use_footnote' ] + $start_number : $this->convert_num( $value[ 'use_footnote' ] + $start_number, $style, count( $footnotes ) );
 			$id_href = ( ( $use_full_link ) ? get_permalink( $post->ID ) : '' ) . "#footnote_" . $value[ 'use_footnote' ] . "_" . $post->ID;
-			$id_title = str_replace( '"', "&quot;", htmlentities( html_entity_decode( strip_tags( $value[ 'text' ] ), ENT_QUOTES, 'UTF-8' ), ENT_QUOTES, 'UTF-8' ) );
+			$id_title = str_replace( '"', "&quot;", htmlentities( html_entity_decode( wp_strip_all_tags( $value[ 'text' ] ), ENT_QUOTES, 'UTF-8' ), ENT_QUOTES, 'UTF-8' ) );
 			$id_replace = $this->current_options[ 'pre_identifier' ] . '<a href="' . $id_href . '" id="' . $id_id . '" class="footnote-link footnote-identifier-link" title="' . $id_title . '">' . $this->current_options[ 'inner_pre_identifier' ] . $id_num . $this->current_options[ 'inner_post_identifier' ] . '</a>' . $this->current_options[ 'post_identifier' ];
 			if ( $this->current_options[ 'superscript' ] ) $id_replace = '<sup>' . $id_replace . '</sup>';
 			if ( $display ) $data = substr_replace( $data, $id_replace, strpos( $data, $value[ 0 ] ), strlen( $value[ 0 ] ) );
@@ -264,19 +272,19 @@ class swas_wp_footnotes {
 		if ( $display ) {
 
 			$footnotes_markup = '';
-			$start = ( $start_number != 1 ) ? 'start="' . $start_number . '" ' : '';
+			$start = ( $start_number !== 1 ) ? 'start="' . $start_number . '" ' : '';
 			$footnotes_markup = $footnotes_markup . $this->current_options[ 'pre_footnotes' ];
 
 			$footnotes_markup = $footnotes_markup . '<ol ' . $start . 'class="footnotes">';
 			foreach ( $footnotes as $key => $value ) {
 				$footnotes_markup = $footnotes_markup . '<li id="footnote_' . $key . '_' . $post->ID . '" class="footnote"';
-				if ( 'symbol' == $style ) {
+				if ( 'symbol' === $style ) {
 					$footnotes_markup = $footnotes_markup . ' style="list-style-type:none;"';
-				} elseif( $style != $this->current_options[ 'list_style_type' ] ) {
+				} elseif( $style !== $this->current_options[ 'list_style_type' ] ) {
 					$footnotes_markup = $footnotes_markup . ' style="list-style-type:' . $style . ';"';
 				}
 				$footnotes_markup = $footnotes_markup . '>';
-				if ( 'symbol' == $style ) {
+				if ( 'symbol' === $style ) {
 					$footnotes_markup = $footnotes_markup . '<span class="symbol">' . $this->convert_num( $key + $start_number, $style, count( $footnotes ) ) . '</span> ';
 				}
 				$footnotes_markup = $footnotes_markup.$value[ 'text' ];
@@ -290,11 +298,61 @@ class swas_wp_footnotes {
 				$footnotes_markup = $footnotes_markup . '</li>';
 			}
 			$footnotes_markup = $footnotes_markup . '</ol>' . $this->current_options[ 'post_footnotes' ];
+			
+			$data = $data . $footnotes_markup;
 		}
 
-		$data = $data . $footnotes_markup;
-
 		return $data;
+	}
+
+	/**
+	* Add Settings link to plugin list
+	*
+	* Add a Settings link to the options listed against this plugin
+	*
+	* @since	1.0.2
+	*
+	* @param	string  $links	Current links
+	* @param	string  $file	File in use
+	* @return   string			Links, now with settings added
+	*/
+
+	function add_settings_link( $links, $file ) {
+
+		static $this_plugin;
+
+		if ( !$this_plugin ) { $this_plugin = plugin_basename( __FILE__ ); }
+
+		if ( strpos( $file, 'footnotes-made-easy.php' ) !== false ) {
+			$settings_link = '<a href="options-general.php?page=footnotes-options-page">' . __( 'Settings', 'footnotes-made-easy' ) . '</a>';
+			array_unshift( $links, $settings_link );
+		}
+
+		return $links;
+	}
+
+	/**
+	* Add meta to plugin details
+	*
+	* Add options to plugin meta line
+	*
+	* @since    1.0.2
+	*
+	* @param    string  $links  Current links
+	* @param    string  $file   File in use
+	* @return   string          Links, now with settings added
+	*/
+
+	function plugin_meta( $links, $file ) {
+
+		if ( false !== strpos( $file, 'footnotes-made-easy.php' ) ) {
+
+			$links = array_merge( $links, array( '<a href="https://github.com/dartiss/footnotes-made-easy">' . __( 'Github', 'footnotes-made-easy' ) . '</a>' ) );
+
+			$links = array_merge( $links, array( '<a href="https://wordpress.org/support/plugin/footnotes-made-easy">' . __( 'Support', 'footnotes-made-easy' ) . '</a>' ) );
+		}
+
+		return $links;
 	}
 
 	/**
@@ -308,6 +366,7 @@ class swas_wp_footnotes {
 	function footnotes_options_page() {
 
 		$this->current_options = get_option( 'swas_footnote_options' );
+		$new_setting = array();
 		foreach ( $this->current_options as $key=>$setting ) {
 			$new_setting[ $key ] = htmlentities( $setting );
 		}
@@ -330,7 +389,7 @@ class swas_wp_footnotes {
 		global $footnotes_hook;
 		$screen = get_current_screen();
 
-		if ( $screen->id != $footnotes_hook ) { return; }
+		if ( $screen->id !== $footnotes_hook ) { return; }
 
 		$screen -> add_help_tab( array( 'id' => 'footnotes-help-tab', 'title'	=> __( 'Help', 'footnotes-made-easy' ), 'content' => $this->add_help_content() ) );
 
@@ -388,7 +447,7 @@ class swas_wp_footnotes {
 
 		global $footnotes_hook;
 
-		$footnotes_hook = add_options_page( __( 'Footnotes Made Easy', 'footnotes-made-easy' ), __( 'Footnotes', 'footnotes-made-easy' ), 'manage_options', __FILE__, array( $this, 'footnotes_options_page' ) );
+		$footnotes_hook = add_options_page( __( 'Footnotes Made Easy', 'footnotes-made-easy' ), __( 'Footnotes', 'footnotes-made-easy' ), 'manage_options', 'footnotes-options-page', array( $this, 'footnotes_options_page' ) );
 
 		add_action( 'load-' . $footnotes_hook, array( $this, 'footnotes_help' ) );
 
@@ -405,7 +464,7 @@ class swas_wp_footnotes {
 	function insert_styles(){
 		?>
 		<style type="text/css">
-			<?php if ( 'symbol' != $this->current_options[ 'list_style_type' ] ): ?>
+			<?php if ( 'symbol' !== $this->current_options[ 'list_style_type' ] ): ?>
 			ol.footnotes>li {list-style-type:<?php echo $this->current_options[ 'list_style_type' ]; ?>;}
 			<?php endif; ?>
 			<?php echo "ol.footnotes { color:#666666; }\nol.footnotes li { font-size:80%; }\n"; ?>
@@ -486,14 +545,14 @@ class swas_wp_footnotes {
 			$num %= $d;
 		}
 
-		return ( $case == 'lower' ) ? strtolower( $roman ) : $roman;
+		return ( $case === 'lower' ) ? strtolower( $roman ) : $roman;
 	}
 
 	function alpha( $num, $case='upper' ){
 		$j = 1;
 		for ( $i = 'A'; $i <= 'ZZ'; $i++ ){
-			if ( $j == $num ){
-				if ( 'lower' == $case )
+			if ( $j === $num ){
+				if ( 'lower' === $case )
 					return strtolower( $i );
 				else
 					return $i;
@@ -528,4 +587,3 @@ class swas_wp_footnotes {
 		wp_enqueue_style( 'wp-footnotes-tt-style', plugins_url( 'css/tooltips.min.css' , __FILE__ ), array(), null );
 	}
 }
-?>
