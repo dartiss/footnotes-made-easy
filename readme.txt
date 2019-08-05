@@ -2,7 +2,7 @@
 Contributors: dartiss
 Tags: bibliography, footnotes, formatting, notes, reference, referencing
 Requires at least: 4.6
-Tested up to: 5.1.1
+Tested up to: 5.2.2
 Requires PHP: 5.6
 Stable tag: 1.0.2
 License: GPLv2 or later
@@ -34,6 +34,8 @@ Technical specification...
 **Footnotes Made Easy is a fork of [WP Footnotes](https://github.com/drzax/wp-footnotes "Github - wp-footnotes"), a plugin by Simon Elvery which was abandoned some years ago.**
 
 Please visit the [Github page](https://github.com/dartiss/footnotes-made-easy "Github") for the latest code development, planned enhancements and known issues.
+
+Icons made by [Cursor Creative](https://www.flaticon.com/authors/cursor-creative "Cursor Creative") from [www.flaticon.co](https://www.flaticon.com/ "Flaticon") is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0 "Creative Commons BY 3.0").
 
 == Getting Started ==
 
