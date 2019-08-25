@@ -35,8 +35,6 @@ Technical specification...
 
 Please visit the [Github page](https://github.com/dartiss/footnotes-made-easy "Github") for the latest code development, planned enhancements and known issues.
 
-Icons made by [Cursor Creative](https://www.flaticon.com/authors/cursor-creative "Cursor Creative") from [www.flaticon.co](https://www.flaticon.com/ "Flaticon") is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0 "Creative Commons BY 3.0").
-
 == Getting Started ==
 
 Creating a footnote is incredibly simple - you just need to include your footnote in double parentheses, such as this...
