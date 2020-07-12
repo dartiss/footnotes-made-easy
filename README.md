@@ -20,3 +20,5 @@ Creating a footnote is incredibly simple - you just need to include your footnot
 The footnote will then appear at the bottom of your post/page.
 
 **Important note:** Make sure you include a space before your opening double parentheses or the footnote won't work!
+
+<p align="right"><a href="https://wordpress.org/plugins/footnotes-made-easy/"><img src="https://img.shields.io/wordpress/plugin/dt/footnotes-made-easy?label=wp.org%20downloads&style=for-the-badge">&nbsp;<img src="https://img.shields.io/wordpress/plugin/stars/footnotes-made-easy?color=orange&style=for-the-badge"></a></p>
