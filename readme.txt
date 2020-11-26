@@ -1,8 +1,8 @@
 === Footnotes Made Easy ===
 Contributors: dartiss
-Tags: bibliography, footnotes, formatting, notes, reference, referencing
+Tags: bibliography, footnotes, formatting, notes, reference
 Requires at least: 4.6
-Tested up to: 5.3
+Tested up to: 5.6
 Requires PHP: 5.6
 Stable tag: 1.0.2
 License: GPLv2 or later
@@ -33,7 +33,9 @@ Technical specification...
 
 **Footnotes Made Easy is a fork of [WP Footnotes](https://github.com/drzax/wp-footnotes "Github - wp-footnotes"), a plugin by Simon Elvery which was abandoned some years ago.**
 
-Please visit the [Github page](https://github.com/dartiss/footnotes-made-easy "Github") for the latest code development, planned enhancements and known issues.
+Iconography is courtesy of the very talented [Janki Rathod](https://www.fiverr.com/jankirathore) ♥️
+
+👉 Please visit the [Github page](https://github.com/dartiss/footnotes-made-easy "Github") for the latest code development, planned enhancements and known issues 👈
 
 == Getting Started ==
 
@@ -87,7 +89,7 @@ Yes it can. The easiest way is to use the CSS editor in your theme customizer. F
 
 == Change Log ==
 
-[Learn more about my version numbering methodology](https://artiss.blog/2016/09/wordpress-plugin-versioning/ "WordPress Plugin Versioning")
+I use semantic versioning, with the first release being 1.0.
 
 = 1.0.2 =
 * Bug: Fixed some bugs around settings getting saved (thanks to [Rufus87](https://wordpress.org/support/users/rufus87/))
